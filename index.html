@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gardenview Crew Chat</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    font-family: 'Fredoka One', cursive;
+    background: url('background.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 1.8em;
+    background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  #chat-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .message {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    color: white;
+    font-size: 1em;
+    position: relative;
+    word-wrap: break-word;
+    outline: 2px solid black; /* Text outline effect */
+  }
+
+  .rainbow {
+    background: linear-gradient(to bottom, violet, indigo, blue, green, yellow, orange, red);
+  }
+
+  .pastel-pan {
+    background: linear-gradient(to bottom, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff);
+  }
+
+  .red-green {
+    background: linear-gradient(to bottom, red, green);
+  }
+
+  .red {
+    background-color: red;
+  }
+
+  .pastel-colors {
+    background: linear-gradient(to bottom, var(--color-start), var(--color-end));
+  }
+
+  #chat-input {
+    display: flex;
+    padding: 10px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  #chat-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    font-family: 'Fredoka One', cursive;
+  }
+
+  #chat-input button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>gardenview crew but YOU can chat with a toon name !</h1>
+
+<div id="chat-container"></div>
+
+<div id="chat-input">
+  <input type="text" id="message" placeholder="Type your message...">
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+  const names = [
+    {name: 'Blot', class:'red-green'},
+    {name: 'Boxten', class:'red-green'},
+    {name: 'Brightney', class:'red-green'},
+    {name: 'Brusha', class:'red-green'},
+    {name: 'Connie', class:'red-green'},
+    {name: 'Cosmo', class:'red-green'},
+    {name: 'Finn', class:'red-green'},
+    {name: 'Flutter', class:'red-green'},
+    {name: 'Gigi', class:'red-green'},
+    {name: 'Glisten', class:'red-green'},
+    {name: 'Goob', class:'red-green'},
+    {name: 'Looey', class:'red-green'},
+    {name: 'Poppy', class:'red-green'},
+    {name: 'Razzle & Dazzle', class:'red-green'},
+    {name: 'Rodger', class:'red-green'},
+    {name: 'Scraps', class:'red-green'},
+    {name: 'Shrimpo', class:'red-green'},
+    {name: 'Teagan', class:'red-green'},
+    {name: 'Tisha', class:'red-green'},
+    {name: 'Toodles', class:'red-green'},
+    {name: 'Yatta', class:'red-green'},
+
+    {name: 'Astro', class:'rainbow'},
+    {name: 'Bassie', class:'pastel-pan'},
+    {name: 'Bobette', class:'red-green'},
+    {name: 'Gourdy', class:'red-green'},
+    {name: 'Pebble', class:'pastel-colors', colorStart:'#d3d3d3', colorEnd:'#d3d3d3'},
+    {name: 'Shelly', class:'pastel-colors', colorStart:'#ffe5b4', colorEnd:'#ffe5b4'},
+    {name: 'Sprout', class:'pastel-colors', colorStart:'#ff6961', colorEnd:'#ff6961'},
+    {name: 'Vee', class:'pastel-colors', colorStart:'#77dd77', colorEnd:'#77dd77'},
+    {name: 'Cocoa', class:'pastel-pan'},
+    {name: 'Eggson', class:'pastel-pan'},
+    {name: 'Flyte', class:'pastel-pan'},
+    {name: 'Eclipse', class:'red-green'},
+    {name: 'Ribecca', class:'red-green'},
+    {name: 'Soulvester', class:'red-green'},
+    {name: 'Coal', class:'red-green'},
+    {name: 'Ginger', class:'red-green'},
+    {name: 'Rudie', class:'red-green'},
+    {name: 'Dandy', class:'red'},
+    {name: 'Dyle', class:'red'}
+  ];
+
+  const chatContainer = document.getElementById('chat-container');
+
+  function getRandomName() {
+    const random = names[Math.floor(Math.random() * names.length)];
+    return random;
+  }
+
+  function sendMessage() {
+    const messageInput = document.getElementById('message');
+    const text = messageInput.value.trim();
+    if (!text) return;
+
+    const user = getRandomName();
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('message');
+
+    if(user.class === 'pastel-colors'){
+      msgDiv.style.background = `linear-gradient(to bottom, ${user.colorStart}, ${user.colorEnd})`;
+    } else {
+      msgDiv.classList.add(user.class);
+    }
+
+    msgDiv.textContent = `${user.name}: ${text}`;
+    chatContainer.appendChild(msgDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    messageInput.value = '';
+  }
+
+  // Optional: Press Enter to send
+  document.getElementById('message').addEventListener('keypress', function(e){
+    if(e.key === 'Enter') sendMessage();
+  });
+</script>
+
+</body>
+</html>
